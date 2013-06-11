@@ -67,14 +67,36 @@ HELP;
                 if (!$customer->getId()) {
                     $customer->setWebsiteId($website->getId());
                     $customer->setEmail($email);
+                    $customer->setPrefix($faker->prefix);
                     $customer->setFirstname($faker->firstName);
                     $customer->setLastname($faker->lastName);
                     $customer->setPassword($password);
 
+                    $billingAddress = $this->getCustomerAddressModel();
+                    $billingAddress->setStreet($faker->streetAddress);
+                    $billingAddress->setCity($faker->city);
+                    $billingAddress->setCountryId('US');
+                    $billingAddress->setRegionId($faker->randomNumber(0,65));
+                    $billingAddress->setPostcode($faker->postcode);
+                    $billingAddress->setTelephone($faker->phoneNumber);
+                    $billingAddress->setIsDefaultBilling(true);
+                    $customer->addAddress($billingAddress);
+
+                    $shippingAddress = $this->getCustomerAddressModel();
+                    $shippingAddress->setStreet($faker->streetAddress);
+                    $shippingAddress->setCity($faker->city);
+                    $shippingAddress->setCountryId('US');
+                    $shippingAddress->setRegionId($faker->randomNumber(0,65));
+                    $shippingAddress->setPostcode($faker->postcode);
+                    $shippingAddress->setTelephone($faker->phoneNumber);
+                    $shippingAddress->setIsDefaultShipping(true);
+                    $customer->addAddress($shippingAddress);
+
                     $customer->save();
                     $customer->setConfirmation(null);
                     $customer->save();
-                    $output->writeln('<info>Customer <comment>' . $email . '</comment> with password <comment>' . $password .  '</comment> successfully created</info>');
+
+                    $output->writeln('<info>Customereee <comment>' . $email . '</comment> with password <comment>' . $password .  '</comment> successfully created</info>');
                 } else {
                     $output->writeln('<error>Customer ' . $email . ' already exists</error>');
                 }

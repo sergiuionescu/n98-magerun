@@ -21,4 +21,12 @@ abstract class AbstractCustomerCommand extends AbstractMagentoCommand
     {
         return $this->_getResourceModel('customer/customer_collection', 'Mage_Customer_Model_Resource_Customer_Collection');
     }
+
+    /**
+     * @return Mage_Customer_Model_Address
+     */
+    protected function getCustomerAddressModel()
+    {
+        return $this->_getModel('customer/address', 'Mage_Customer_Model_Address');
+    }
 }
